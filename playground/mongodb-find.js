@@ -26,11 +26,11 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
 //        console.log('ERR', err);
 //     });
 
-//    db.collection('Users').find({name:'ENO'}).toArray().then((res)=>{
-//        console.log(res)
-//    }, (err)=>{
-//        console.log(err)
-//    })
+   db.collection('Users').find({name:'ENO'}).toArray().then((res)=>{
+       console.log(res)
+   }, (err)=>{
+       console.log(err)
+   })
 
    // client.close();
 })
