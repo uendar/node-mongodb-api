@@ -16,13 +16,11 @@ app.post('/todos', (req, res)=>{
        text:req.body.text
    });
     todo.save().then((doc)=>{
-   //   console.log(JSON.stringify(doc, undefined, 2));
       res.status(201).send(doc);
     },(err)=>{
-    //    console.log(JSON.stringify(err, undefined, 2));
         res.status(400).send(err);
     })
-});
+});;
 
 
 app.get('/todos', (req, res)=>{
@@ -31,10 +29,8 @@ app.get('/todos', (req, res)=>{
          res.status(200).send({todos});
        },(err)=>{
         res.status(400).send(err);
-       })
+       });
 });
-
-
 
 
 
