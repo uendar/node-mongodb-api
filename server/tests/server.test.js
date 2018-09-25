@@ -15,11 +15,17 @@ const todos = [{
     text:'Sec Test'
 }];
 
-beforeEach((done)=>{
-  Todo.deleteMany({}).then(()=>{
-     return Todo.insertMany(todos);
+// beforeEach((done)=>{
+//   Todo.deleteMany({}).then(()=>{
+//      return Todo.insertMany(todos);
      
-  }).then(()=>{ done()});
+//   }).then(()=>{ done()});
+// });
+
+beforeEach((done)=>{
+        Todo.find({}).then(()=>{
+            return Todo.find({});
+        });
 });
 
 describe('POST /todos',()=>{
@@ -65,7 +71,6 @@ describe('POST /todos',()=>{
         }) 
     }) ;  
 });
-
 
 
 describe('GET /todos',()=>{
