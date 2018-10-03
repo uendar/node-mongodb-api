@@ -5,17 +5,18 @@ const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { ObjectID} = require('mongodb');
+const SHA256 = require('crypto-js/sha256');
 
 var { mongoose} = require('./db/mongose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
-
 
 var app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+//TODOS
 app.post('/todos', (req, res)=>{
    var todo = new Todo({
        text:req.body.text
@@ -25,8 +26,7 @@ app.post('/todos', (req, res)=>{
     },(err)=>{
         res.status(400).send(err);
     })
-});;
-
+});
 
 app.get('/todos', (req, res)=>{
    
@@ -36,8 +36,6 @@ app.get('/todos', (req, res)=>{
         res.status(400).send(err);
        });
 });
-
-
 
 app.get('/todos/:id',(req, res)=>{
   var id = req.params.id;
@@ -85,8 +83,6 @@ app.delete('/todos/:id',(req, res)=>{
 
 });
 
-
-
 //patch used when update 
 app.patch('/todos/:id',(req, res)=>{
     var id = req.params.id;
@@ -116,6 +112,28 @@ app.patch('/todos/:id',(req, res)=>{
            res.status(404).send({message: 'id does not exists!'});
     });
 });
+
+
+
+//USERS
+app.post('/users', (req, res)=>{
+   var body = _.pick(req.body, ['email', 'password']);
+   var user  = new User(body);
+
+   user.save().then(()=>{ 
+     return user.generateAuthToken();
+    })
+    .then((token)=>{
+       var resp = user.toJSON();
+        res.header('x-auth', token).send(resp);
+    })
+    .catch((err)=>{ 
+        res.status(404).send(err)
+    });
+
+});
+
+
 
 
 
