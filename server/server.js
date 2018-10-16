@@ -121,9 +121,6 @@ app.post('/users', (req, res)=>{
    var body = _.pick(req.body, ['email', 'password']);
    var user  = new User(body);
       
-      
-    
-
    user.save().then(()=>{ 
      return user.generateAuthToken();
     })
@@ -136,8 +133,6 @@ app.post('/users', (req, res)=>{
     });
 
 });
-
-
 
 
 //req auth valid tok, assosiet user, send user back
@@ -159,10 +154,23 @@ app.get('/users/api', authenticate, (req, res)=>{
 //     });
 // });
 
+app.post('/users/login', (req, res)=>{
+    var body = _.pick(req.body, ['email', 'password']);
+
+    User.findByCredentials(body.email, body.password).then((user) => {
+      user.generateAuthToken().then((token)=>{
+          res.header('x-auth', token).send({
+              user:user,
+              token:user.tokens[0].token})
+      })
+   }).catch((e)=>{
+        res.status(400).send();
+   });
+
+});
 
 
-
-
+// app.delete();
 
 
 app.listen(port, ()=>{
