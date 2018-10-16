@@ -10,6 +10,7 @@ const SHA256 = require('crypto-js/sha256');
 var { mongoose} = require('./db/mongose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
+var {authenticate} = require('./middleware/authenticate');
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -132,6 +133,28 @@ app.post('/users', (req, res)=>{
     });
 
 });
+
+
+
+
+//req auth valid tok, assosiet user, send user back
+app.get('/users/api', authenticate, (req, res)=>{
+    res.send(req.user);
+});
+//OR without middleware
+// app.get('/users/api', (req, res)=>{
+//     var token = req.header('x-auth');
+
+//     User.findByToken(token).then((user)=>{
+//         if(!user){
+//            return Promise.reject();
+//         }
+//         res.send(user);
+
+//     }).catch((e)=>{
+//        res.status(401).send(e);
+//     });
+// });
 
 
 
