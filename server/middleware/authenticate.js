@@ -6,10 +6,12 @@ var authenticate = (req, res ,next)=>{
         if(!user){
            return Promise.reject();
         }
+       
        req.user= user;
        req.token = token;
-    //same
-  //  res.status(200).send(user);
+
+     //same
+    //  res.status(200).send(user);
        next();
 
     }).catch((e)=>{
