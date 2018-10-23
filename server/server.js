@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const { ObjectID} = require('mongodb');
 const SHA256 = require('crypto-js/sha256');
 
-var { mongoose} = require('./db/mongose');
+var {mongoose} = require('./db/mongose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
@@ -118,7 +118,6 @@ app.patch('/todos/:id', authenticate, (req, res)=>{
            res.status(404).send({message: 'id does not exists!'});
     });
 });
-
 
 
 //USERS
